@@ -5,6 +5,11 @@ import ReactJson from "react-json-view";
 import "bootstrap/dist/css/bootstrap.css";
 import itemConfig from "./storage_item_config.json";
 import "./styles.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 var JsonConfig = {
   gift: {
@@ -87,6 +92,9 @@ export default function App() {
     jsonResult.gift = data;
     JsonConfig = jsonResult;
     navigator.clipboard.writeText(JSON.stringify(JsonConfig));
+    return () => {
+      NotificationManager.info("Info message");
+    };
   }; // your form submit function which will invoke after successful validation
 
   console.log(watch("example")); // you can watch individual input by pass the name of the input
@@ -225,6 +233,7 @@ export default function App() {
         <input type="button" value="+" onClick={clickAddTicket} />
       </div>
 
+      <NotificationContainer />
       <input type="submit" />
       <div className="App">
         <ReactJson src={JsonConfig} theme="monokai" />
