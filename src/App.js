@@ -92,9 +92,8 @@ export default function App() {
     jsonResult.gift = data;
     JsonConfig = jsonResult;
     navigator.clipboard.writeText(JSON.stringify(JsonConfig));
-    return () => {
-      NotificationManager.info("Info message");
-    };
+ 
+    NotificationManager.success('Copied to clipboard', 'Generate gifts sucessfully');
   }; // your form submit function which will invoke after successful validation
 
   console.log(watch("example")); // you can watch individual input by pass the name of the input
@@ -243,4 +242,39 @@ export default function App() {
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+
+ 
+class Example extends React.Component {
+  createNotification = (type) => {
+    return () => {
+     
+    };
+  };
+ 
+  render() {
+    return (
+      <div>
+        <button className='btn btn-info'
+          onClick={this.createNotification('info')}>Info
+        </button>
+        <hr/>
+        <button className='btn btn-success'
+          onClick={this.createNotification('success')}>Success
+        </button>
+        <hr/>
+        <button className='btn btn-warning'
+          onClick={this.createNotification('warning')}>Warning
+        </button>
+        <hr/>
+        <button className='btn btn-danger'
+          onClick={this.createNotification('error')}>Error
+        </button>
+ 
+        <NotificationContainer/>
+      </div>
+    );
+  }
+}
+ 
+ReactDOM.render(<><App />
+<Example/></>, rootElement);
