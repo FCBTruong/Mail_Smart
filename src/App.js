@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import ReactJson from "react-json-view";
 import "bootstrap/dist/css/bootstrap.css";
-import itemConfig from './storage_item_config.json';
+import itemConfig from "./storage_item_config.json";
 import "./styles.css";
 
 var JsonConfig = {
@@ -21,16 +21,16 @@ export default function App() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({ 
+  } = useForm({
     shouldUnregister: true,
-   });
+  });
 
   const [items, setItems] = React.useState([]);
   const [tickets, setTickets] = React.useState([]);
   const [counter, setCounter] = React.useState(0);
   const [counterTicket, setCounterTicket] = React.useState(0);
   const [selectedItemType, setItemType] = React.useState({
-    type: 0
+    type: 0,
   });
 
   function clickAddItem() {
@@ -67,22 +67,21 @@ export default function App() {
 
   function handleChange(e) {
     console.log("Item type selected" + e.target.value);
-    setItemType({...selectedItemType, type: e.target.value});
-    console.log("Selected"+ selectedItemType);
+    setItemType({ ...selectedItemType, type: e.target.value });
+    console.log("Selected" + selectedItemType);
   }
 
   const onSubmit = (data) => {
     console.log("DT: " + JSON.stringify(data));
 
     // check null
-    if(data.tickets === undefined){
+    if (data.tickets === undefined) {
       data.tickets = [];
     }
-    if(data.items === undefined){
+    if (data.items === undefined) {
       data.items = [];
     }
     // end check
-
 
     var jsonResult = {};
     jsonResult.gift = data;
@@ -114,12 +113,12 @@ export default function App() {
 
       <p>
         ITEMS
-        <div className="items"> 
+        <div className="items">
           <ul>
             {items.map((index) => {
               const fieldName = `items[${index}]`;
               return (
-                <li> 
+                <li>
                   <div>
                     <p>Item ID</p>
                     <select
@@ -130,12 +129,12 @@ export default function App() {
                         valueAsNumber: true,
                       })}
                     >
-                      {                  
-                        Object.keys(itemConfig[selectedItemType.type]).map((key) => {
+                      {Object.keys(itemConfig[selectedItemType.type]).map(
+                        (key) => {
                           var obj = itemConfig[selectedItemType.type][key];
-                          return <option value={obj.id}>{obj.name}</option>
-                        })
-                      }
+                          return <option value={obj.id}>{obj.name}</option>;
+                        }
+                      )}
                     </select>
                     <p>Item Type</p>
                     <select
@@ -150,16 +149,19 @@ export default function App() {
                       <option value="2">EMOTICON</option>
                     </select>
                     <p>Item Sub Type</p>
-                    <select
-                      id="itemSubType"
-                      {...register(`${fieldName}.itemSubType`, {
-                        valueAsNumber: true,
-                      })}
-                    >
-                      <option value="0">1 Day</option>
-                      <option value="1">7 Days</option>
-                      <option value="2">30 Days</option>
-                    </select>
+                    {
+                      <select
+                        id="itemSubType"
+                        defaultValue={0}
+                        {...register(`${fieldName}.itemSubType`, {
+                          valueAsNumber: true,
+                        })}
+                      >
+                        <option value="0">1 Day</option>
+                        <option value="1">7 Days</option>
+                        <option value="2">30 Days</option>
+                      </select>
+                    }
                     <p>Item Number</p>
                     <input
                       type="number"
@@ -219,7 +221,7 @@ export default function App() {
           </ul>
         </div>
       </p>
-      <div  >
+      <div>
         <input type="button" value="+" onClick={clickAddTicket} />
       </div>
 
