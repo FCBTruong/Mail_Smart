@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import ReactJson from "react-json-view";
 import "bootstrap/dist/css/bootstrap.css";
-
+import itemConfig from './storage_item_config.json';
 import "./styles.css";
 
 var JsonConfig = {
@@ -29,6 +29,9 @@ export default function App() {
   const [tickets, setTickets] = React.useState([]);
   const [counter, setCounter] = React.useState(0);
   const [counterTicket, setCounterTicket] = React.useState(0);
+  const [selectedItemType, setItemType] = React.useState({
+    type: 0
+  });
 
   function clickAddItem() {
     console.log("Add item");
@@ -62,6 +65,12 @@ export default function App() {
     console.log(JSON.stringify(items));
   };
 
+  function handleChange(e) {
+    console.log("Item type selected" + e.target.value);
+    setItemType({...selectedItemType, type: e.target.value});
+    console.log("Selected"+ selectedItemType);
+  }
+
   const onSubmit = (data) => {
     console.log("DT: " + JSON.stringify(data));
 
@@ -78,6 +87,7 @@ export default function App() {
     var jsonResult = {};
     jsonResult.gift = data;
     JsonConfig = jsonResult;
+    navigator.clipboard.writeText(JSON.stringify(JsonConfig));
   }; // your form submit function which will invoke after successful validation
 
   console.log(watch("example")); // you can watch individual input by pass the name of the input
@@ -85,7 +95,7 @@ export default function App() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* register your input into the hook by invoking the "register" function */}
-      <p>GOlD</p>
+      <p id="head_input">GOlD</p>
       <input
         type="number"
         defaultValue={0}
@@ -111,26 +121,37 @@ export default function App() {
               return (
                 <li> 
                   <div>
-                    <input
+                    <p>Item ID</p>
+                    <select
                       type="number"
                       defaultValue={0}
                       id="itemId"
                       {...register(`${fieldName}.itemId`, {
                         valueAsNumber: true,
                       })}
-                    ></input>
+                    >
+                      {                  
+                        Object.keys(itemConfig[selectedItemType.type]).map((key) => {
+                          var obj = itemConfig[selectedItemType.type][key];
+                          return <option value={obj.id}>{obj.name}</option>
+                        })
+                      }
+                    </select>
+                    <p>Item Type</p>
                     <select
                       id="itemType"
                       {...register(`${fieldName}.itemType`, {
                         valueAsNumber: true,
                       })}
+                      onChange={handleChange}
                     >
                       <option value="0">AVATAR</option>
                       <option value="1">INTERACTION</option>
-                      <option value="1">EMOTICON</option>
+                      <option value="2">EMOTICON</option>
                     </select>
+                    <p>Item Sub Type</p>
                     <select
-                      id="itemType"
+                      id="itemSubType"
                       {...register(`${fieldName}.itemSubType`, {
                         valueAsNumber: true,
                       })}
@@ -139,6 +160,7 @@ export default function App() {
                       <option value="1">7 Days</option>
                       <option value="2">30 Days</option>
                     </select>
+                    <p>Item Number</p>
                     <input
                       type="number"
                       defaultValue={1}
@@ -197,7 +219,7 @@ export default function App() {
           </ul>
         </div>
       </p>
-      <div className="tickets">
+      <div  >
         <input type="button" value="+" onClick={clickAddTicket} />
       </div>
 
