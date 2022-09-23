@@ -39,13 +39,13 @@ export default function App() {
 
   const onChangeGold = (e) => {
     var newData = { ...data };
-    newData.gift.gold = (e.target.value) ? parseInt(e.target.value) : 0;
+    newData.gift.gold = (parseInt(e.target.value)) ? parseInt(e.target.value) : 0;
     setData(newData);
   };
 
   const onChangeDiamond = (e) => {
     var newData = { ...data };
-    newData.gift.diamond = (e.target.value) ? parseInt(e.target.value) : 0;
+    newData.gift.diamond = (parseInt(e.target.value)) ? parseInt(e.target.value) : 0;
     setData(newData);
   };
 
@@ -69,13 +69,13 @@ export default function App() {
 
   const onChangeTicketNum = (e) => {
     var newData = { ...data };
-    newData.gift.tickets[0].ticketNum = (e.target.value) ? parseInt(e.target.value) : 0;
+    newData.gift.tickets[0].ticketNum = (parseInt(e.target.value)) ? parseInt(e.target.value) : 0;
     setData(newData);
   }
 
   const onChangeTicketType = (e) => {
     var newData = { ...data };
-    newData.gift.tickets[0].ticketType = (e.target.value) ? parseInt(e.target.value) : 0;
+    newData.gift.tickets[0].ticketType = (parseInt(e.target.value)) ? parseInt(e.target.value) : 0;
     setData(newData);
   }
 
